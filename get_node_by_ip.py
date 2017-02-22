@@ -3,6 +3,12 @@ import urllib2
 import json
 
 import MySQLdb
+import paramiko
+import time
+import socket
+from paramiko import AuthenticationException
+from paramiko import BadHostKeyException
+from paramiko import SSHException
 
 haproxy_api = "http://oc.yidian-inc.com/metrics/api/backend_haproxy_server"
 nginx_tag_api = "http://oc.yidian-inc.com/nginx/api/tag_nginx_server"
@@ -60,10 +66,11 @@ def get_nodes_by_ip(ip, hostname):
 
 
 if __name__ == '__main__':
-    ip = "10.103.17.190"
+    ip = "10.103.18.40"
     hostname = get_hostname(ip)
     if hostname is None:
         print "ip is not exist in falcon"
+
     else:
         haproxy, nginx = get_nodes_by_ip(ip, hostname[0])
         print "haproxy:", [h for h in haproxy]
